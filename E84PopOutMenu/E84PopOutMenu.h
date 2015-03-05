@@ -10,10 +10,12 @@
 
 @interface E84PopOutMenu : UIControl
 
+@property (nonatomic, copy) NSString *selectedIdentifier;
+
 @property (nonatomic, getter=isOpen) BOOL open;
 
 /* */
-- (void)addPopOutMenuItem:(UIView *)menuItem;
+- (void)addPopOutMenuItem:(UIView *)menuItem forIdentifier:(NSString *)identifier;
 
 /* */
 - (void)setOpen:(BOOL)open animated:(BOOL)animated;

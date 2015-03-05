@@ -12,6 +12,8 @@
 
 @property (nonatomic, strong) NSMutableArray *menuItems;
 
+@property (nonatomic, strong) NSMutableDictionary *menuItemInfo;
+
 @end
 
 @implementation E84PopOutMenu
@@ -42,8 +44,14 @@
 }
 
 /* */
-- (void)addPopOutMenuItem:(UIView *)menuItem {
+- (void)addPopOutMenuItem:(UIView *)menuItem forIdentifier:(NSString *)identifier {
+    // If we have no other items this is the selected item.
+    if ([self.menuItems count] == 0) {
+        _selectedIdentifier = identifier;
+    }
+    
     [self.menuItems addObject:menuItem];
+    [self.menuItemInfo setObject:menuItem forKey:identifier];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(menuItemSelected:)];
     [menuItem addGestureRecognizer:tapGesture];
@@ -54,40 +62,62 @@
 }
 
 /* */
-- (void)openMenuAnimated:(BOOL)animated {
+- (void)setOpen:(BOOL)open {
+    [self setOpen:open animated:YES];
+}
+
+/* */
+- (void)setOpen:(BOOL)open animated:(BOOL)animated {
+    if (_open == open) {
+        return;
+    }
+    
+    CGFloat duration = animated ? 0.4 : 0.f;
     [self.menuItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         UIView *menuItem = (UIView *)obj;
-        [UIView animateWithDuration:0.4
-                              delay:0.06 * idx
+        
+        CGFloat delay = animated ? 0.06 * idx : 0.f;
+        [UIView animateWithDuration:duration
+                              delay:delay
              usingSpringWithDamping:0.7
               initialSpringVelocity:0.4
                             options:UIViewAnimationOptionAllowUserInteraction
                          animations:^{
-                             CGFloat deltaX = 100.f * idx;
-                             menuItem.transform = CGAffineTransformMakeTranslation(deltaX, 0.f);
+                             CGAffineTransform transform;
+                             if (_open) {
+                                 transform = CGAffineTransformIdentity;
+                             } else {
+                                 CGFloat deltaX = 100.f * idx;
+                                 transform = CGAffineTransformMakeTranslation(deltaX, 0.f);
+                             }
+
+                             menuItem.transform = transform;
                          } completion:^(BOOL finished) {
-                             NSLog(@"Finished open animation.");
-                             self.open = YES;
+                             if (finished) {
+                                 _open = !_open;
+                             }
                          }];
     }];
 }
 
 /* */
-- (void)closeMenuAnimated:(BOOL)animated {
-    [self.menuItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        UIView *menuItem = (UIView *)obj;
-        [UIView animateWithDuration:0.4
-                              delay:0.06 * idx
-             usingSpringWithDamping:0.7
-              initialSpringVelocity:0.4
-                            options:UIViewAnimationOptionAllowUserInteraction
-                         animations:^{
-                             menuItem.transform = CGAffineTransformIdentity;
-                         } completion:^(BOOL finished) {
-                             NSLog(@"Finished open animation.");
-                             self.open = NO;
-                         }];
-    }];
+- (void)setSelectedIdentifier:(NSString *)selectedIdentifier {
+    if ([_selectedIdentifier isEqualToString:selectedIdentifier]) {
+        return;
+    }
+    
+    // Make sure we're getting passed a valid identifier.
+    UIView *menuItem = self.menuItemInfo[selectedIdentifier];
+    if (menuItem != nil) {
+        // Move the item to the front of our queue.
+        [self.menuItems removeObject:menuItem];
+        [self.menuItems insertObject:menuItem atIndex:0];
+        
+        // Bring it to the front so that it lays over the other items when closed.
+        [self bringSubviewToFront:menuItem];
+        
+        _selectedIdentifier = selectedIdentifier;
+    }
 }
 
 #pragma mark -
@@ -95,21 +125,26 @@
 
 /* */
 - (void)baseInit {
+    self.backgroundColor = [UIColor clearColor];
+   
+    _menuItemInfo = [NSMutableDictionary dictionary];
     _menuItems = [NSMutableArray array];
     _open = NO;
 }
 
 /* */
 - (void)menuItemSelected:(UITapGestureRecognizer *)tapGesture {
-    NSLog(@"Tapped item at index: %ld", (unsigned long)[self.menuItems indexOfObject:tapGesture.view]);
+    UIView *menuItem = tapGesture.view;
+    NSString *identifier = [[self.menuItemInfo allKeysForObject:menuItem] firstObject];
     
-    if ([self.menuItems indexOfObject:tapGesture.view] == 0) {
-        if (!self.open) {
-            [self openMenuAnimated:YES];
-        } else {
-            [self closeMenuAnimated:YES];
-        }
+    if (![identifier isEqualToString:self.selectedIdentifier]) {
+        // Update our selected identifier.
+        self.selectedIdentifier = identifier;
+        [self sendActionsForControlEvents:UIControlEventValueChanged];
     }
+
+    // Toggle the menu.
+    self.open = !self.open;
 }
 
 #pragma mark -

@@ -17,21 +17,26 @@
 
 @implementation ViewController
 
+- (void)popOutMenuValueChanged:(id)sender {
+    NSLog(@"Selected menu item: %@", self.popOutMenu.selectedIdentifier);
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    [self.popOutMenu addTarget:self action:@selector(popOutMenuValueChanged:) forControlEvents:UIControlEventValueChanged];
     
     UIView *menuItem = [[UIView alloc] init];
     menuItem.backgroundColor = [UIColor blackColor];
-    [self.popOutMenu addPopOutMenuItem:menuItem];
+    [self.popOutMenu addPopOutMenuItem:menuItem forIdentifier:@"Foo"];
     
     menuItem = [[UIView alloc] init];
     menuItem.backgroundColor = [UIColor greenColor];
-    [self.popOutMenu addPopOutMenuItem:menuItem];
+    [self.popOutMenu addPopOutMenuItem:menuItem forIdentifier:@"Bar"];
     
     menuItem = [[UIView alloc] init];
     menuItem.backgroundColor = [UIColor blueColor];
-    [self.popOutMenu addPopOutMenuItem:menuItem];
+    [self.popOutMenu addPopOutMenuItem:menuItem forIdentifier:@"FooBar"];
 }
 
 - (void)didReceiveMemoryWarning {
