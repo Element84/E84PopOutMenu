@@ -26,17 +26,37 @@
     // Do any additional setup after loading the view, typically from a nib.
     [self.popOutMenu addTarget:self action:@selector(popOutMenuValueChanged:) forControlEvents:UIControlEventValueChanged];
     
-    UIView *menuItem = [[UIView alloc] init];
-    menuItem.backgroundColor = [UIColor blackColor];
-    [self.popOutMenu addPopOutMenuItem:menuItem forIdentifier:@"Foo"];
+    UIColor *menuItemBackgroundColor = self.view.backgroundColor;
     
-    menuItem = [[UIView alloc] init];
-    menuItem.backgroundColor = [UIColor greenColor];
-    [self.popOutMenu addPopOutMenuItem:menuItem forIdentifier:@"Bar"];
+    UIButton *menuItem = [UIButton buttonWithType:UIButtonTypeCustom];
+    [menuItem setBackgroundColor:menuItemBackgroundColor];
+    [menuItem setImage:[UIImage imageNamed:@"E84SingleScreenMenuItem"] forState:UIControlStateNormal];
+    [self.popOutMenu addPopOutMenuItem:menuItem forIdentifier:@"SingleScreen"];
     
-    menuItem = [[UIView alloc] init];
-    menuItem.backgroundColor = [UIColor blueColor];
+    menuItem = [UIButton buttonWithType:UIButtonTypeCustom];
+    [menuItem setBackgroundColor:menuItemBackgroundColor];
+    [menuItem setImage:[UIImage imageNamed:@"E84SplitScreenMenuItem"] forState:UIControlStateNormal];
+    [self.popOutMenu addPopOutMenuItem:menuItem forIdentifier:@"SplitScreen"];
+
+    menuItem = [UIButton buttonWithType:UIButtonTypeCustom];
+    [menuItem setBackgroundColor:menuItemBackgroundColor];
+    [menuItem setImage:[UIImage imageNamed:@"E84PlayMenuItem"] forState:UIControlStateNormal];
+    [self.popOutMenu addPopOutMenuItem:menuItem forIdentifier:@"Play"];
+
+    menuItem = [UIButton buttonWithType:UIButtonTypeCustom];
+    [menuItem setBackgroundColor:menuItemBackgroundColor];
+    [menuItem setImage:[UIImage imageNamed:@"E84AdjustmentMenuItem"] forState:UIControlStateNormal];
+    [self.popOutMenu addPopOutMenuItem:menuItem forIdentifier:@"Adjustment"];
+    
+    menuItem = [UIButton buttonWithType:UIButtonTypeCustom];
+    [menuItem setBackgroundColor:menuItemBackgroundColor];
+    [menuItem setImage:[UIImage imageNamed:@"E84AdjustmentMenuItem"] forState:UIControlStateNormal];
     [self.popOutMenu addPopOutMenuItem:menuItem forIdentifier:@"FooBar"];
+    
+    menuItem = [UIButton buttonWithType:UIButtonTypeCustom];
+    [menuItem setBackgroundColor:menuItemBackgroundColor];
+    [menuItem setImage:[UIImage imageNamed:@"E84AdjustmentMenuItem"] forState:UIControlStateNormal];
+    [self.popOutMenu addPopOutMenuItem:menuItem forIdentifier:@"Foo"];
 }
 
 - (void)didReceiveMemoryWarning {

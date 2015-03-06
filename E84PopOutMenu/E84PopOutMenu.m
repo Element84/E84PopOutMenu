@@ -8,9 +8,7 @@
 
 #import "E84PopOutMenu.h"
 
-@interface E84PopOutMenu ()
-
-@property (nonatomic, strong) NSMutableArray *menuItems;
+@interface E84PopOutMenu () < UIGestureRecognizerDelegate >
 
 @property (nonatomic, strong) NSMutableDictionary *menuItemInfo;
 
@@ -46,19 +44,22 @@
 /* */
 - (void)addPopOutMenuItem:(UIView *)menuItem forIdentifier:(NSString *)identifier {
     // If we have no other items this is the selected item.
-    if ([self.menuItems count] == 0) {
+    if ([self.subviews count] == 0) {
         _selectedIdentifier = identifier;
+        [self forwardSelected:YES toMenuItem:menuItem];
+    } else {
+        menuItem.alpha = self.open ? 1.f : 0.f;
+        menuItem.hidden = !self.open;
     }
     
-    [self.menuItems addObject:menuItem];
     [self.menuItemInfo setObject:menuItem forKey:identifier];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(menuItemSelected:)];
+    tapGesture.delegate = self;
     [menuItem addGestureRecognizer:tapGesture];
     
     menuItem.frame = self.bounds;
-    [self addSubview:menuItem];
-    [self sendSubviewToBack:menuItem];
+    [self insertSubview:menuItem atIndex:0];
 }
 
 /* */
@@ -71,33 +72,60 @@
     if (_open == open) {
         return;
     }
+
+    // If opening:
+    if (!_open) {
+        CGFloat duration = animated ? 0.25 : 0.f;
+        [UIView animateWithDuration:duration animations:^{
+            for (NSInteger i = 0; i < [self.subviews count]; i++) {
+                UIView *menuItem = self.subviews[i];
+                menuItem.hidden = NO;
+                menuItem.alpha = 1.f;
+            }
+        }];
+    }
     
     CGFloat duration = animated ? 0.4 : 0.f;
-    [self.menuItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        UIView *menuItem = (UIView *)obj;
+    for (NSInteger i = 0; i < [self.subviews count]; i++) {
+        UIView *menuItem = self.subviews[[self.subviews count] - (i + 1)];
         
-        CGFloat delay = animated ? 0.06 * idx : 0.f;
-        [UIView animateWithDuration:duration
-                              delay:delay
-             usingSpringWithDamping:0.7
-              initialSpringVelocity:0.4
+        CGFloat delay = animated ? 0.06 * i : 0.f;
+        [UIView animateWithDuration:duration delay:delay usingSpringWithDamping:0.85 initialSpringVelocity:0.4
                             options:UIViewAnimationOptionAllowUserInteraction
                          animations:^{
                              CGAffineTransform transform;
                              if (_open) {
                                  transform = CGAffineTransformIdentity;
                              } else {
-                                 CGFloat deltaX = 100.f * idx;
+                                 CGFloat deltaX = 75.f * i;
                                  transform = CGAffineTransformMakeTranslation(deltaX, 0.f);
                              }
-
+                             
                              menuItem.transform = transform;
                          } completion:^(BOOL finished) {
-                             if (finished) {
+                             // Finally, after all animations have finished,
+                             // toggle the open flag.
+                            if (finished && i == [self.subviews count] - 1) {
+                                 if (_open) {
+                                     CGFloat duration = animated ? 0.25 : 0.f;
+                                     [UIView animateWithDuration:duration animations:^{
+                                         for (NSInteger j = 0; j < [self.subviews count] - 1; j++) {
+                                            ((UIView *)self.subviews[j]).alpha = 0.f;
+                                         }
+                                     } completion:^(BOOL finished) {
+                                         if (finished) {
+                                             for (NSInteger j = 0; j < [self.subviews count] - 1; j++) {
+                                                 ((UIView *)self.subviews[j]).hidden = YES;
+                                             }
+                                         }
+                                         
+                                     }];
+                                 }
+                                 
                                  _open = !_open;
                              }
                          }];
-    }];
+    }
 }
 
 /* */
@@ -106,15 +134,16 @@
         return;
     }
     
+    // Get the previously selected menu item.
+    UIView *oldMenuItem = self.menuItemInfo[_selectedIdentifier];
+    [self forwardSelected:NO toMenuItem:oldMenuItem];
+    
     // Make sure we're getting passed a valid identifier.
     UIView *menuItem = self.menuItemInfo[selectedIdentifier];
     if (menuItem != nil) {
-        // Move the item to the front of our queue.
-        [self.menuItems removeObject:menuItem];
-        [self.menuItems insertObject:menuItem atIndex:0];
-        
         // Bring it to the front so that it lays over the other items when closed.
         [self bringSubviewToFront:menuItem];
+        [self forwardSelected:YES toMenuItem:menuItem];
         
         _selectedIdentifier = selectedIdentifier;
     }
@@ -128,7 +157,6 @@
     self.backgroundColor = [UIColor clearColor];
    
     _menuItemInfo = [NSMutableDictionary dictionary];
-    _menuItems = [NSMutableArray array];
     _open = NO;
 }
 
@@ -147,12 +175,36 @@
     self.open = !self.open;
 }
 
+/* */
+- (void)forwardHighlighted:(BOOL)highlighted toMenuItem:(UIView *)menuItem {
+    if ([menuItem respondsToSelector:@selector(setSelected:)]) {
+        NSMethodSignature *methodSignature = [[menuItem class] instanceMethodSignatureForSelector:@selector(setHighlighted:)];
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSignature];
+        [invocation setTarget:menuItem];
+        [invocation setSelector:@selector(setHighlighted:)];
+        [invocation setArgument:&highlighted atIndex:2];
+        [invocation invoke];
+    }
+}
+
+/* */
+- (void)forwardSelected:(BOOL)selected toMenuItem:(UIView *)menuItem {
+    if ([menuItem respondsToSelector:@selector(setSelected:)]) {
+        NSMethodSignature *methodSignature = [[menuItem class] instanceMethodSignatureForSelector:@selector(setSelected:)];
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSignature];
+        [invocation setTarget:menuItem];
+        [invocation setSelector:@selector(setSelected:)];
+        [invocation setArgument:&selected atIndex:2];
+        [invocation invoke];
+    }
+}
+
 #pragma mark -
 #pragma mark UIView
 
 /* */
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
-    for (UIView *menuItem in self.menuItems) {
+    for (UIView *menuItem in self.subviews) {
         if (CGRectContainsPoint(menuItem.frame, point)) {
             return YES;
         }
