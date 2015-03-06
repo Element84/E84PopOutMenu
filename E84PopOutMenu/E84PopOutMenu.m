@@ -87,7 +87,7 @@
     
     CGFloat duration = animated ? 0.4 : 0.f;
     for (NSInteger i = 0; i < [self.subviews count]; i++) {
-        UIView *menuItem = self.subviews[[self.subviews count] - (i + 1)];
+        UIView *menuItem = _open ? self.subviews[[self.subviews count] - (i + 1)] : self.subviews[i];
         
         CGFloat delay = animated ? 0.06 * i : 0.f;
         [UIView animateWithDuration:duration delay:delay usingSpringWithDamping:0.85 initialSpringVelocity:0.4
@@ -97,7 +97,7 @@
                              if (_open) {
                                  transform = CGAffineTransformIdentity;
                              } else {
-                                 CGFloat deltaX = 75.f * i;
+                                 CGFloat deltaX = 75.f * ([self.subviews count] - (i + 1));
                                  transform = CGAffineTransformMakeTranslation(deltaX, 0.f);
                              }
                              
@@ -133,15 +133,17 @@
     if ([_selectedIdentifier isEqualToString:selectedIdentifier]) {
         return;
     }
-    
-    // Get the previously selected menu item.
-    UIView *oldMenuItem = self.menuItemInfo[_selectedIdentifier];
-    [self forwardSelected:NO toMenuItem:oldMenuItem];
-    
+
     // Make sure we're getting passed a valid identifier.
-    UIView *menuItem = self.menuItemInfo[selectedIdentifier];
-    if (menuItem != nil) {
+    if (self.menuItemInfo[selectedIdentifier]) {
+        // Get the previously selected menu item.
+        UIView *oldMenuItem = self.menuItemInfo[_selectedIdentifier];
+        if (oldMenuItem) {
+            [self forwardSelected:NO toMenuItem:oldMenuItem];
+        }
+        
         // Bring it to the front so that it lays over the other items when closed.
+        UIView *menuItem = self.menuItemInfo[selectedIdentifier];
         [self bringSubviewToFront:menuItem];
         [self forwardSelected:YES toMenuItem:menuItem];
         
@@ -175,7 +177,7 @@
     self.open = !self.open;
 }
 
-/* */
+/* Not implemented (nothing calls this yet). */
 - (void)forwardHighlighted:(BOOL)highlighted toMenuItem:(UIView *)menuItem {
     if ([menuItem respondsToSelector:@selector(setSelected:)]) {
         NSMethodSignature *methodSignature = [[menuItem class] instanceMethodSignatureForSelector:@selector(setHighlighted:)];
