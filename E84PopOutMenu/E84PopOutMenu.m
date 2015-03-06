@@ -58,8 +58,12 @@
     tapGesture.delegate = self;
     [menuItem addGestureRecognizer:tapGesture];
     
-    menuItem.frame = self.bounds;
+    //menuItem.frame = self.bounds;
     [self insertSubview:menuItem atIndex:0];
+
+    NSDictionary *views = NSDictionaryOfVariableBindings(menuItem);
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[menuItem]|" options:0 metrics:nil views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[menuItem]|" options:0 metrics:nil views:views]];
 }
 
 /* */
