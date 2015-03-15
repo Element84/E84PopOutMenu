@@ -58,9 +58,7 @@
     tapGesture.delegate = self;
     [menuItem addGestureRecognizer:tapGesture];
     
-    //menuItem.frame = self.bounds;
     [self insertSubview:menuItem atIndex:0];
-
     NSDictionary *views = NSDictionaryOfVariableBindings(menuItem);
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[menuItem]|" options:0 metrics:nil views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[menuItem]|" options:0 metrics:nil views:views]];
@@ -89,19 +87,19 @@
         }];
     }
     
-    CGFloat duration = animated ? 0.4 : 0.f;
+    CGFloat duration = animated ? self.animationDuration : 0.f;
     for (NSInteger i = 0; i < [self.subviews count]; i++) {
         UIView *menuItem = _open ? self.subviews[[self.subviews count] - (i + 1)] : self.subviews[i];
         
-        CGFloat delay = animated ? 0.06 * i : 0.f;
-        [UIView animateWithDuration:duration delay:delay usingSpringWithDamping:0.85 initialSpringVelocity:0.4
+        CGFloat delay = animated ? self.itemAnimationDelay * i : 0.f;
+        [UIView animateWithDuration:duration delay:delay usingSpringWithDamping:self.dampingRatio initialSpringVelocity:self.velocity
                             options:UIViewAnimationOptionAllowUserInteraction
                          animations:^{
                              CGAffineTransform transform;
                              if (_open) {
                                  transform = CGAffineTransformIdentity;
                              } else {
-                                 CGFloat deltaX = 75.f * ([self.subviews count] - (i + 1));
+                                 CGFloat deltaX = self.interitemSpacing * ([self.subviews count] - (i + 1));
                                  transform = CGAffineTransformMakeTranslation(deltaX, 0.f);
                              }
                              
@@ -164,6 +162,12 @@
    
     _menuItemInfo = [NSMutableDictionary dictionary];
     _open = NO;
+    
+    _animationDuration = 0.4;
+    _dampingRatio = 0.85;
+    _itemAnimationDelay = 0.06;
+    _interitemSpacing = 75.f;
+    _velocity = 0.4;
 }
 
 /* */

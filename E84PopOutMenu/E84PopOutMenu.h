@@ -10,14 +10,62 @@
 
 @interface E84PopOutMenu : UIControl
 
+/** 
+ The identifier for the currently selected item. Manually setting this will
+ show the menu item but will not open or close the menu.
+*/
 @property (nonatomic, copy) NSString *selectedIdentifier;
 
+/** 
+ Indicates whether or not the menu is currently open.
+*/
 @property (nonatomic, getter=isOpen) BOOL open;
 
-/* */
+/**
+ The duration of the animation used to open or close the menu. Defaults to 0.4.
+ */
+@property (nonatomic) CGFloat animationDuration;
+
+/**
+ The delay used between opening animations for each item. Defaults to 0.06.
+ */
+@property (nonatomic) CGFloat itemAnimationDelay;
+
+/** 
+ The number of points used to separate each item of the menu when open. Defaults to 75.
+ */
+@property (nonatomic) CGFloat interitemSpacing;
+
+/**
+ The damping ratio used to control the elasticity of the open/close animation. Values range
+ between 0 and 1, where 1 is no oscillation at the end of the animation. Defaults to 0.85.
+ */
+@property (nonatomic) CGFloat dampingRatio;
+
+/**
+ The initial velocity of the open/close animation. Defaults to 0.4.
+ */
+@property (nonatomic) CGFloat velocity;
+
+/**
+ Adds the given view as an item to the menu. Menu items are resized to
+ fit the frame of the menu itself. Items are inserted as a subview below any existing
+ menu items. 
+ 
+ If the menu item responds to setSelected: E84PopoutMenu will call forward
+ selection status to the item.
+ 
+ @param menuItem The item to add to the menu
+ @param identifier The unique identifier associated with this menu item
+ */
 - (void)addPopOutMenuItem:(UIView *)menuItem forIdentifier:(NSString *)identifier;
 
-/* */
+/**
+ Manually open or close the menu with an option to animate.
+ 
+ @param open Whether or not the menu should be opened
+ @param animated Whether or not opening/closing is animated
+ */
 - (void)setOpen:(BOOL)open animated:(BOOL)animated;
 
 @end
