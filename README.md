@@ -1,6 +1,6 @@
 #E84PopOutMenu
 
-Small UIControl for presenting a menu with any number of menu items with a nice open and close animation.
+Small UIControl for presenting a menu with any number of menu items with a nice open and close animation. Supports multiple directions, mask types, and configurable animation options.
 
 ![Example](Example/Example.gif)
 
