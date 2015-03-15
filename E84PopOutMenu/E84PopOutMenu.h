@@ -10,6 +10,11 @@
 
 @interface E84PopOutMenu : UIControl
 
+typedef NS_ENUM(NSInteger, E84PopOutMenuMaskType) {
+    E84PopOutMenuMaskTypeNone = 0,  // no background when open; allows user interaction while displayed
+    E84PopOutMenuMaskTypeBlack      // dims UI behind menu; tapping outside of menu closes it
+};
+
 /** 
  The identifier for the currently selected item. Manually setting this will
  show the menu item but will not open or close the menu.
@@ -20,6 +25,11 @@
  Indicates whether or not the menu is currently open.
 */
 @property (nonatomic, getter=isOpen) BOOL open;
+
+/**
+ Mask type to use when the menu is open. See E84PopOutMenuMaskType for descriptions.
+ */
+@property (nonatomic) enum E84PopOutMenuMaskType maskType;
 
 /**
  The duration of the animation used to open or close the menu. Defaults to 0.4.

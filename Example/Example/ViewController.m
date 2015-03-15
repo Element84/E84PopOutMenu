@@ -30,6 +30,7 @@
     
     // Do any additional setup after loading the view, typically from a nib.
     self.popOutMenu.interitemSpacing = 100.f;
+    self.popOutMenu.maskType = E84PopOutMenuMaskTypeBlack;
     [self.popOutMenu addTarget:self action:@selector(popOutMenuValueChanged:) forControlEvents:UIControlEventValueChanged];
     
     UIColor *menuItemBackgroundColor = self.view.backgroundColor;

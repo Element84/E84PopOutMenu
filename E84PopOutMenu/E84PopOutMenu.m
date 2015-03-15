@@ -12,6 +12,8 @@
 
 @property (nonatomic, strong) NSMutableDictionary *menuItemInfo;
 
+@property (nonatomic, strong) UIView *maskView;
+
 @end
 
 @implementation E84PopOutMenu
@@ -85,6 +87,12 @@
                 menuItem.alpha = 1.f;
             }
         }];
+        
+        [self.superview bringSubviewToFront:self];
+        if (self.maskType != E84PopOutMenuMaskTypeNone) {
+            self.maskView.alpha = 0.f;
+            [self.superview insertSubview:self.maskView belowSubview:self];
+        }
     }
     
     CGFloat duration = animated ? self.animationDuration : 0.f;
@@ -96,14 +104,19 @@
                             options:UIViewAnimationOptionAllowUserInteraction
                          animations:^{
                              CGAffineTransform transform;
+                             CGFloat maskAlpha = 0.f;
                              if (_open) {
                                  transform = CGAffineTransformIdentity;
                              } else {
                                  CGFloat deltaX = self.interitemSpacing * ([self.subviews count] - (i + 1));
                                  transform = CGAffineTransformMakeTranslation(deltaX, 0.f);
+                                 maskAlpha = 1.f;
                              }
                              
                              menuItem.transform = transform;
+                             if (self.maskType != E84PopOutMenuMaskTypeNone) {
+                                 self.maskView.alpha = maskAlpha;
+                             }
                          } completion:^(BOOL finished) {
                              // Finally, after all animations have finished,
                              // toggle the open flag.
@@ -122,6 +135,10 @@
                                          }
                                          
                                      }];
+                                     
+                                     if (self.maskType != E84PopOutMenuMaskTypeNone) {
+                                         [self.maskView removeFromSuperview];
+                                     }
                                  }
                                  
                                  _open = !_open;
@@ -168,6 +185,24 @@
     _itemAnimationDelay = 0.06;
     _interitemSpacing = 75.f;
     _velocity = 0.4;
+}
+
+/* */
+- (void)close:(UITapGestureRecognizer *)gesture {
+    [self setOpen:NO animated:YES];
+}
+
+/* */
+- (UIView *)maskView {
+    if (!_maskView) {
+        _maskView = [[UIView alloc] initWithFrame:self.window.bounds];
+        _maskView.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.75];
+        
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(close:)];
+        [_maskView addGestureRecognizer:tapGesture];
+    }
+    
+    return _maskView;
 }
 
 /* */

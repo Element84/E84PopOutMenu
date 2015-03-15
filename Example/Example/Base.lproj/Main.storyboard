@@ -34,11 +34,20 @@
                                     <action selector="toggleMenu:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tdy-1Q-Rtu"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="E84BackgroundImage" translatesAutoresizingMaskIntoConstraints="NO" id="hbJ-0V-Ztw">
+                                <rect key="frame" x="200" y="71" width="200" height="138"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="6Xd-4z-qIO"/>
+                                    <constraint firstAttribute="height" constant="138" id="qhg-yK-S84"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="3y1-26-tI4" secondAttribute="centerX" id="CUt-Eq-jhF"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="DhJ-wB-ven" secondAttribute="bottom" constant="20" id="KS1-Td-qUv"/>
+                            <constraint firstAttribute="centerX" secondItem="hbJ-0V-Ztw" secondAttribute="centerX" id="fC3-df-ZZq"/>
+                            <constraint firstItem="hbJ-0V-Ztw" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="51" id="jzO-dt-04c"/>
                             <constraint firstItem="DhJ-wB-ven" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="tbC-LL-emS"/>
                             <constraint firstAttribute="centerY" secondItem="3y1-26-tI4" secondAttribute="centerY" id="tcl-Ex-D5a"/>
                         </constraints>
@@ -52,4 +61,7 @@
             <point key="canvasLocation" x="451" y="482"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="E84BackgroundImage" width="400" height="276"/>
+    </resources>
 </document>
