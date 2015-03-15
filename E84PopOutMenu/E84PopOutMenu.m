@@ -78,7 +78,7 @@
     }
 
     // If opening:
-    if (!_open) {
+    if (open) {
         CGFloat duration = animated ? 0.25 : 0.f;
         [UIView animateWithDuration:duration animations:^{
             for (NSInteger i = 0; i < [self.subviews count]; i++) {
@@ -97,7 +97,7 @@
     
     CGFloat duration = animated ? self.animationDuration : 0.f;
     for (NSInteger i = 0; i < [self.subviews count]; i++) {
-        UIView *menuItem = _open ? self.subviews[[self.subviews count] - (i + 1)] : self.subviews[i];
+        UIView *menuItem = !open ? self.subviews[[self.subviews count] - (i + 1)] : self.subviews[i];
         
         CGFloat delay = animated ? self.itemAnimationDelay * i : 0.f;
         [UIView animateWithDuration:duration delay:delay usingSpringWithDamping:self.dampingRatio initialSpringVelocity:self.velocity
@@ -105,7 +105,7 @@
                          animations:^{
                              CGAffineTransform transform;
                              CGFloat maskAlpha = 0.f;
-                             if (_open) {
+                             if (!open) {
                                  transform = CGAffineTransformIdentity;
                              } else {
                                  CGFloat deltaX = self.interitemSpacing * ([self.subviews count] - (i + 1));
@@ -121,7 +121,7 @@
                              // Finally, after all animations have finished,
                              // toggle the open flag.
                             if (finished && i == [self.subviews count] - 1) {
-                                 if (_open) {
+                                 if (!open) {
                                      CGFloat duration = animated ? 0.25 : 0.f;
                                      [UIView animateWithDuration:duration animations:^{
                                          for (NSInteger j = 0; j < [self.subviews count] - 1; j++) {
@@ -141,7 +141,7 @@
                                      }
                                  }
                                  
-                                 _open = !_open;
+                                 _open = open;
                              }
                          }];
     }
