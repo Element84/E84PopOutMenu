@@ -108,8 +108,7 @@
                              if (!open) {
                                  transform = CGAffineTransformIdentity;
                              } else {
-                                 CGFloat deltaX = self.interitemSpacing * ([self.subviews count] - (i + 1));
-                                 transform = CGAffineTransformMakeTranslation(deltaX, 0.f);
+                                 transform = [self openTransformForMenuItemAtIndex:i direction:self.menuDirection];
                                  maskAlpha = 1.f;
                              }
                              
@@ -148,6 +147,19 @@
 }
 
 /* */
+- (void)setMaskType:(enum E84PopOutMenuMaskType)maskType {
+    if (_maskType == maskType) {
+        return;
+    }
+    
+    _maskType = maskType;
+    
+    if (self.maskView) {
+        self.maskView = nil;
+    }
+}
+
+/* */
 - (void)setSelectedIdentifier:(NSString *)selectedIdentifier {
     if ([_selectedIdentifier isEqualToString:selectedIdentifier]) {
         return;
@@ -177,6 +189,8 @@
 - (void)baseInit {
     self.backgroundColor = [UIColor clearColor];
    
+    _maskType = E84PopOutMenuMaskTypeNone;
+    _menuDirection = E84PopOutMenuDirectionRight;
     _menuItemInfo = [NSMutableDictionary dictionary];
     _open = NO;
     
@@ -242,6 +256,31 @@
         [invocation setArgument:&selected atIndex:2];
         [invocation invoke];
     }
+}
+
+/* */
+- (CGAffineTransform)openTransformForMenuItemAtIndex:(NSInteger)index direction:(enum E84PopOutMenuDirection)direction {
+    CGAffineTransform transform;
+    CGFloat delta = self.interitemSpacing * ([self.subviews count] - (index + 1));
+    
+    switch (direction) {
+        case E84PopOutMenuDirectionLeft:
+            transform = CGAffineTransformMakeTranslation(-delta, 0.f);
+            break;
+        case E84PopOutMenuDirectionUp:
+            transform = CGAffineTransformMakeTranslation(0.f, -delta);
+            break;
+        case E84PopOutMenuDirectionRight:
+            transform = CGAffineTransformMakeTranslation(delta, 0.f);
+            break;
+        case E84PopOutMenuDirectionDown:
+            transform = CGAffineTransformMakeTranslation(0.f, delta);
+            break;
+        default:
+            break;
+    }
+    
+    return transform;
 }
 
 #pragma mark -

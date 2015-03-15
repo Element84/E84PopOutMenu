@@ -8,12 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@interface E84PopOutMenu : UIControl
-
 typedef NS_ENUM(NSInteger, E84PopOutMenuMaskType) {
     E84PopOutMenuMaskTypeNone = 0,  // no background when open; allows user interaction while displayed
     E84PopOutMenuMaskTypeBlack      // dims UI behind menu; tapping outside of menu closes it
 };
+
+typedef NS_ENUM(NSInteger, E84PopOutMenuDirection) {
+    E84PopOutMenuDirectionLeft = 0,
+    E84PopOutMenuDirectionUp,
+    E84PopOutMenuDirectionRight,
+    E84PopOutMenuDirectionDown
+};
+
+@interface E84PopOutMenu : UIControl
 
 /** 
  The identifier for the currently selected item. Manually setting this will
@@ -30,6 +37,11 @@ typedef NS_ENUM(NSInteger, E84PopOutMenuMaskType) {
  Mask type to use when the menu is open. See E84PopOutMenuMaskType for descriptions.
  */
 @property (nonatomic) enum E84PopOutMenuMaskType maskType;
+
+/** 
+ Opening direction of the menu. Default is E84PopOutMenuDirectionRight.
+ */
+@property (nonatomic) enum E84PopOutMenuDirection menuDirection;
 
 /**
  The duration of the animation used to open or close the menu. Defaults to 0.4.

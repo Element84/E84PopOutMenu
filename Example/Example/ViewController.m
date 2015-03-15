@@ -17,6 +17,15 @@
 
 @implementation ViewController
 
+- (IBAction)directionValueChanged:(id)sender {
+    self.popOutMenu.menuDirection = ((UISegmentedControl *)sender).selectedSegmentIndex;
+}
+
+
+- (IBAction)maskValueChanged:(id)sender {
+    self.popOutMenu.maskType = ((UISegmentedControl *)sender).selectedSegmentIndex;
+}
+
 - (IBAction)toggleMenu:(id)sender {
     [self.popOutMenu setOpen:!self.popOutMenu.open animated:YES];
 }
@@ -30,7 +39,6 @@
     
     // Do any additional setup after loading the view, typically from a nib.
     self.popOutMenu.interitemSpacing = 100.f;
-    self.popOutMenu.maskType = E84PopOutMenuMaskTypeBlack;
     [self.popOutMenu addTarget:self action:@selector(popOutMenuValueChanged:) forControlEvents:UIControlEventValueChanged];
     
     UIColor *menuItemBackgroundColor = self.view.backgroundColor;

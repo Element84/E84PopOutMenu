@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DhJ-wB-ven" customClass="E84PopOutMenu">
-                                <rect key="frame" x="16" y="520" width="60" height="60"/>
+                                <rect key="frame" x="270" y="270" width="60" height="60"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="TXH-GX-zfG"/>
@@ -26,7 +26,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3y1-26-tI4">
-                                <rect key="frame" x="256" y="285" width="88" height="30"/>
+                                <rect key="frame" x="16" y="562" width="88" height="30"/>
                                 <state key="normal" title="Toggle Menu">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -41,15 +41,63 @@
                                     <constraint firstAttribute="height" constant="138" id="qhg-yK-S84"/>
                                 </constraints>
                             </imageView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="Qqc-FS-xXB">
+                                <rect key="frame" x="112" y="563" width="245" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="245" id="4ES-yy-43h"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Left"/>
+                                    <segment title="Up"/>
+                                    <segment title="Right"/>
+                                    <segment title="Down"/>
+                                </segments>
+                                <connections>
+                                    <action selector="directionValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="fk8-d4-dgo"/>
+                                </connections>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Direction" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qRI-OI-UGg">
+                                <rect key="frame" x="200" y="534" width="68.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="4jG-hG-qlV">
+                                <rect key="frame" x="365" y="563" width="123" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="123" id="NsA-ai-Qzh"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="None"/>
+                                    <segment title="Black"/>
+                                </segments>
+                                <connections>
+                                    <action selector="maskValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="0gh-eg-nXr"/>
+                                </connections>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mask" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hzS-gU-Hdc">
+                                <rect key="frame" x="405" y="534" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="3y1-26-tI4" secondAttribute="centerX" id="CUt-Eq-jhF"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="DhJ-wB-ven" secondAttribute="bottom" constant="20" id="KS1-Td-qUv"/>
+                            <constraint firstItem="4jG-hG-qlV" firstAttribute="top" secondItem="hzS-gU-Hdc" secondAttribute="bottom" constant="8" id="1t5-Sf-icM"/>
+                            <constraint firstItem="Qqc-FS-xXB" firstAttribute="leading" secondItem="3y1-26-tI4" secondAttribute="trailing" constant="8" id="2Sx-JT-ZyP"/>
+                            <constraint firstAttribute="centerX" secondItem="DhJ-wB-ven" secondAttribute="centerX" id="5PD-Ax-F2a"/>
+                            <constraint firstItem="Qqc-FS-xXB" firstAttribute="top" secondItem="qRI-OI-UGg" secondAttribute="bottom" constant="8" id="E2B-MF-Guv"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Qqc-FS-xXB" secondAttribute="bottom" constant="9" id="Naz-l3-hi7"/>
+                            <constraint firstItem="4jG-hG-qlV" firstAttribute="centerX" secondItem="hzS-gU-Hdc" secondAttribute="centerX" id="Nbx-sU-Xzq"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="3y1-26-tI4" secondAttribute="bottom" constant="8" id="brw-hs-pUV"/>
                             <constraint firstAttribute="centerX" secondItem="hbJ-0V-Ztw" secondAttribute="centerX" id="fC3-df-ZZq"/>
                             <constraint firstItem="hbJ-0V-Ztw" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="51" id="jzO-dt-04c"/>
-                            <constraint firstItem="DhJ-wB-ven" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="tbC-LL-emS"/>
-                            <constraint firstAttribute="centerY" secondItem="3y1-26-tI4" secondAttribute="centerY" id="tcl-Ex-D5a"/>
+                            <constraint firstAttribute="centerY" secondItem="DhJ-wB-ven" secondAttribute="centerY" id="lRf-GT-rR7"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="4jG-hG-qlV" secondAttribute="bottom" constant="9" id="rcM-BI-G2I"/>
+                            <constraint firstItem="3y1-26-tI4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="rmD-KU-jZ6"/>
+                            <constraint firstItem="Qqc-FS-xXB" firstAttribute="centerX" secondItem="qRI-OI-UGg" secondAttribute="centerX" id="uMT-hL-aJC"/>
+                            <constraint firstItem="4jG-hG-qlV" firstAttribute="leading" secondItem="Qqc-FS-xXB" secondAttribute="trailing" constant="8" id="uw7-EX-ZXG"/>
                         </constraints>
                     </view>
                     <connections>
