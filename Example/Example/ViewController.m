@@ -12,6 +12,7 @@
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet E84PopOutMenu *popOutMenu;
+@property (weak, nonatomic) IBOutlet UILabel *selectedIdentifierLabel;
 
 @end
 
@@ -31,7 +32,7 @@
 }
 
 - (void)popOutMenuValueChanged:(id)sender {
-    NSLog(@"Selected menu item: %@", self.popOutMenu.selectedIdentifier);
+    self.selectedIdentifierLabel.text = [NSString stringWithFormat:@"Selected menu item: %@", self.popOutMenu.selectedIdentifier];
 }
 
 - (void)viewDidLoad {
@@ -66,6 +67,8 @@
     [menuItem setBackgroundColor:menuItemBackgroundColor];
     [menuItem setImage:[UIImage imageNamed:@"E84AdjustmentMenuItem"] forState:UIControlStateNormal];
     [self.popOutMenu addPopOutMenuItem:menuItem forIdentifier:@"Adjustment"];
+    
+    self.selectedIdentifierLabel.text = [NSString stringWithFormat:@"Selected menu item: %@", self.popOutMenu.selectedIdentifier];
 }
 
 - (void)didReceiveMemoryWarning {
