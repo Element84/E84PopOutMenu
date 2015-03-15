@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name         = 'E84PopOutMenu'
-  s.version      = '0.0.2'
-  s.license      = { "type" => 'MIT'}
+  s.version      = '0.0.3'
+  s.license      = 'MIT'
   s.platform     = :ios, '7.0'  
   s.summary      = 'Menu control that opens/closes in a nice animation revealing all menu items.'
   s.homepage     = 'http://www.element84.com'
