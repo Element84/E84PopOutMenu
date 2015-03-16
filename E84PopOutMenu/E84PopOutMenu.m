@@ -67,6 +67,16 @@
 }
 
 /* */
+- (void)removeMenuItemWithIdentifier:(NSString *)identifier {
+    UIView *menuItem = self.menuItemInfo[identifier];
+
+    if (menuItem) {
+        [self.menuItemInfo removeObjectForKey:identifier];
+        [menuItem removeFromSuperview];
+    }
+}
+
+/* */
 - (void)setOpen:(BOOL)open {
     [self setOpen:open animated:YES];
 }

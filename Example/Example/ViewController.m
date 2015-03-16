@@ -18,6 +18,18 @@
 
 @implementation ViewController
 
+- (IBAction)addPlayMenuItem:(id)sender {
+    UIButton *menuItem = [UIButton buttonWithType:UIButtonTypeCustom];
+    menuItem.translatesAutoresizingMaskIntoConstraints = NO;
+    [menuItem setBackgroundColor:[UIColor whiteColor]];
+    [menuItem setImage:[UIImage imageNamed:@"E84PlayMenuItem"] forState:UIControlStateNormal];
+    [self.popOutMenu addPopOutMenuItem:menuItem forIdentifier:@"Play"];
+}
+
+- (IBAction)removePlayMenuItem:(id)sender {
+    [self.popOutMenu removeMenuItemWithIdentifier:@"Play"];
+}
+
 - (IBAction)directionValueChanged:(id)sender {
     self.popOutMenu.menuDirection = ((UISegmentedControl *)sender).selectedSegmentIndex;
 }

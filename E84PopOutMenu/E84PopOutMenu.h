@@ -84,6 +84,15 @@ typedef NS_ENUM(NSInteger, E84PopOutMenuDirection) {
 - (void)addPopOutMenuItem:(UIView *)menuItem forIdentifier:(NSString *)identifier;
 
 /**
+ Removes a menu item from the menu. Does not recalculate item position
+ if open. Recommend ensuring the menu is closed before calling this
+ method.
+ 
+ @param identifier The unique identifier of the menu item to remove
+ */
+- (void)removeMenuItemWithIdentifier:(NSString *)identifier;
+
+/**
  Manually open or close the menu with an option to animate.
  
  @param open Whether or not the menu should be opened
