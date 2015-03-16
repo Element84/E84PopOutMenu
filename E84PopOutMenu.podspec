@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'E84PopOutMenu'
-  s.version      = '0.0.4'
+  s.version      = '0.0.5'
   s.license      = 'MIT'
   s.platform     = :ios, '7.0'  
   s.summary      = 'Small UIControl for presenting a menu with any number of menu items with a nice open and close animation.'
