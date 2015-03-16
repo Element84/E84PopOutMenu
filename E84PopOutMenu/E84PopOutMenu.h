@@ -10,7 +10,8 @@
 
 typedef NS_ENUM(NSInteger, E84PopOutMenuMaskType) {
     E84PopOutMenuMaskTypeNone = 0,  // no background when open; allows user interaction while displayed
-    E84PopOutMenuMaskTypeBlack      // dims UI behind menu; tapping outside of menu closes it
+    E84PopOutMenuMaskTypeClear,     // clear background behind menu; closes if tap occurs outside of menu
+    E84PopOutMenuMaskTypeBlack      // dims UI behind menu; closes if tap occurs outside of menu
 };
 
 typedef NS_ENUM(NSInteger, E84PopOutMenuDirection) {

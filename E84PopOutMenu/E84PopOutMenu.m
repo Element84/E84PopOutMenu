@@ -210,7 +210,7 @@
 - (UIView *)maskView {
     if (!_maskView) {
         _maskView = [[UIView alloc] initWithFrame:self.window.bounds];
-        _maskView.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.75];
+        _maskView.backgroundColor = self.maskType == E84PopOutMenuMaskTypeBlack ? [UIColor colorWithWhite:0.f alpha:0.75] : [UIColor clearColor];
         
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(close:)];
         [_maskView addGestureRecognizer:tapGesture];
