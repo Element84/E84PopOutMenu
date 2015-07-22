@@ -34,9 +34,12 @@
     self.popOutMenu.menuDirection = ((UISegmentedControl *)sender).selectedSegmentIndex;
 }
 
-
 - (IBAction)maskValueChanged:(id)sender {
     self.popOutMenu.maskType = ((UISegmentedControl *)sender).selectedSegmentIndex;
+}
+
+- (IBAction)modeValueChanged:(id)sender {
+    self.popOutMenu.mode = ((UISegmentedControl *)sender).selectedSegmentIndex;
 }
 
 - (IBAction)toggleMenu:(id)sender {

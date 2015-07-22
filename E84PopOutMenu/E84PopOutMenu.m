@@ -217,7 +217,7 @@
     _menuDirection = E84PopOutMenuDirectionRight;
     _menuItems = [NSMutableArray array];
     _menuItemInfo = [NSMutableDictionary dictionary];
-    _mode = E84PopOutMenuModeOrdered; //E84PopOutMenuModeRecentlyUsed;
+    _mode = E84PopOutMenuModeRecentlyUsed;
     _open = NO;
     
     _animationDuration = 0.4;

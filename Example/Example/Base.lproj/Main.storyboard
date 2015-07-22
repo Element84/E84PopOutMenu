@@ -106,13 +106,35 @@
                                     <action selector="removePlayMenuItem:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gvy-f9-LIW"/>
                                 </connections>
                             </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9N3-YQ-z8Q">
+                                <rect key="frame" x="523" y="564" width="150" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="Fze-nx-Jjo"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="Recent"/>
+                                    <segment title="Ordered"/>
+                                </segments>
+                                <connections>
+                                    <action selector="modeValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="PQO-JC-wi7"/>
+                                </connections>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mode" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ECW-Wq-8tU">
+                                <rect key="frame" x="576" y="535" width="45" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="9N3-YQ-z8Q" firstAttribute="centerX" secondItem="ECW-Wq-8tU" secondAttribute="centerX" id="0Rq-qe-Igy"/>
                             <constraint firstItem="4jG-hG-qlV" firstAttribute="top" secondItem="hzS-gU-Hdc" secondAttribute="bottom" constant="8" id="1t5-Sf-icM"/>
                             <constraint firstItem="Qqc-FS-xXB" firstAttribute="leading" secondItem="3y1-26-tI4" secondAttribute="trailing" constant="8" id="2Sx-JT-ZyP"/>
+                            <constraint firstItem="9N3-YQ-z8Q" firstAttribute="leading" secondItem="4jG-hG-qlV" secondAttribute="trailing" constant="8" id="3iX-eJ-pyF"/>
                             <constraint firstAttribute="centerX" secondItem="DhJ-wB-ven" secondAttribute="centerX" id="5PD-Ax-F2a"/>
                             <constraint firstAttribute="centerX" secondItem="XxL-N4-xzS" secondAttribute="centerX" id="5U0-vL-OHl"/>
+                            <constraint firstItem="9N3-YQ-z8Q" firstAttribute="top" secondItem="ECW-Wq-8tU" secondAttribute="bottom" constant="8" id="A4I-Vz-46z"/>
                             <constraint firstItem="vgZ-Ia-igA" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Ady-gq-0Id"/>
                             <constraint firstItem="Qqc-FS-xXB" firstAttribute="top" secondItem="qRI-OI-UGg" secondAttribute="bottom" constant="8" id="E2B-MF-Guv"/>
                             <constraint firstItem="Yve-sK-eT5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="Eru-xQ-HDH"/>
@@ -120,6 +142,7 @@
                             <constraint firstItem="4jG-hG-qlV" firstAttribute="centerX" secondItem="hzS-gU-Hdc" secondAttribute="centerX" id="Nbx-sU-Xzq"/>
                             <constraint firstItem="vgZ-Ia-igA" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="WYJ-X6-Edh"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="3y1-26-tI4" secondAttribute="bottom" constant="8" id="brw-hs-pUV"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="9N3-YQ-z8Q" secondAttribute="bottom" constant="8" id="e5e-cJ-9Ha"/>
                             <constraint firstAttribute="centerX" secondItem="hbJ-0V-Ztw" secondAttribute="centerX" id="fC3-df-ZZq"/>
                             <constraint firstItem="hbJ-0V-Ztw" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="51" id="jzO-dt-04c"/>
                             <constraint firstItem="Yve-sK-eT5" firstAttribute="top" secondItem="vgZ-Ia-igA" secondAttribute="bottom" constant="8" id="l5i-jT-3cS"/>
