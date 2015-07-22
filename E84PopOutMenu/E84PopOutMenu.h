@@ -21,6 +21,11 @@ typedef NS_ENUM(NSInteger, E84PopOutMenuDirection) {
     E84PopOutMenuDirectionDown
 };
 
+typedef NS_ENUM(NSInteger, E84PopOutMenuMode) {
+    E84PopOutMenuModeRecentlyUsed = 0,
+    E84PopOutMenuModeOrdered
+};
+
 @interface E84PopOutMenu : UIControl
 
 /** 
@@ -43,6 +48,11 @@ typedef NS_ENUM(NSInteger, E84PopOutMenuDirection) {
  Opening direction of the menu. Default is E84PopOutMenuDirectionRight.
  */
 @property (nonatomic) enum E84PopOutMenuDirection menuDirection;
+
+/**
+ Controls the way items are ordered when the menu is open. Default is E84PopOutMenuModeRecentlyUsed.
+ */
+@property (nonatomic) enum E84PopOutMenuMode mode;
 
 /**
  The duration of the animation used to open or close the menu. Defaults to 0.4.

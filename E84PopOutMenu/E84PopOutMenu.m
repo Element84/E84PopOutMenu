@@ -10,6 +10,8 @@
 
 @interface E84PopOutMenu () < UIGestureRecognizerDelegate >
 
+@property (nonatomic, strong) NSMutableArray *menuItems;
+
 @property (nonatomic, strong) NSMutableDictionary *menuItemInfo;
 
 @property (nonatomic, strong) UIView *maskView;
@@ -55,6 +57,7 @@
     }
     
     [self.menuItemInfo setObject:menuItem forKey:identifier];
+    [self.menuItems addObject:menuItem];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(menuItemSelected:)];
     tapGesture.delegate = self;
@@ -72,6 +75,7 @@
 
     if (menuItem) {
         [self.menuItemInfo removeObjectForKey:identifier];
+        [self.menuItems removeObject:menuItem];
         [menuItem removeFromSuperview];
     }
 }
@@ -181,6 +185,16 @@
         UIView *oldMenuItem = self.menuItemInfo[_selectedIdentifier];
         if (oldMenuItem) {
             [self forwardSelected:NO toMenuItem:oldMenuItem];
+            
+            // Return the old menu item to appropriate subview position
+            // based on the mode of the menu:
+            //
+            // E84PopOutMenuModeRecentlyUsed: Do nothing. Bringing the selected item to the front will shift items correctly.
+            // E84PopOutMenuModeOrdered: Insert the old item into the list of subviews at the order it was originally added.
+            if (self.mode == E84PopOutMenuModeOrdered) {
+                NSInteger toIndexOfMenuItem = [self.menuItems count] - [self.menuItems indexOfObject:oldMenuItem] - 1;
+                [self insertSubview:oldMenuItem atIndex:toIndexOfMenuItem];
+            }
         }
         
         // Bring it to the front so that it lays over the other items when closed.
@@ -201,7 +215,9 @@
    
     _maskType = E84PopOutMenuMaskTypeNone;
     _menuDirection = E84PopOutMenuDirectionRight;
+    _menuItems = [NSMutableArray array];
     _menuItemInfo = [NSMutableDictionary dictionary];
+    _mode = E84PopOutMenuModeOrdered; //E84PopOutMenuModeRecentlyUsed;
     _open = NO;
     
     _animationDuration = 0.4;
